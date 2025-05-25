@@ -7,7 +7,7 @@ from telegram.ext import (
 )
 
 # === CONFIGURATION ===
-ADMIN_ID = 123456789  # 🔐 Replace with your Telegram User ID
+ADMIN_ID = 7796598050  # 🔐 Replace with your Telegram User ID
 BASE_DIR = "Website/pdfs"
 JSON_PATH = "Website/data/tests.json"
 
@@ -102,7 +102,12 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === MAIN ===
 def main():
-    app = ApplicationBuilder().token("YOUR_BOT_TOKEN_HERE").build()  # 🔐 Replace with your bot token
+    BOT_TOKEN = os.environ.get("BOT_TOKEN")  # <-- Read token from env variable
+    if not BOT_TOKEN:
+        print("Error: BOT_TOKEN environment variable not set.")
+        return
+
+    app = ApplicationBuilder().token(BOT_TOKEN).build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
