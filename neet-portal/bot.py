@@ -102,12 +102,10 @@ async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 # === MAIN ===
 def main():
-    BOT_TOKEN = os.environ.get("BOT_TOKEN")  # <-- Read token from env variable
-    if not BOT_TOKEN:
-        print("Error: BOT_TOKEN environment variable not set.")
-        return
+    TOKEN = os.getenv("BOT_TOKEN")
+    DOMAIN = "https://aakashpapers-production.up.railway.app"
 
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
+    app = ApplicationBuilder().token(TOKEN).build()
 
     conv_handler = ConversationHandler(
         entry_points=[CommandHandler("start", start)],
@@ -121,8 +119,13 @@ def main():
     )
 
     app.add_handler(conv_handler)
-    print("🤖 Bot is running...")
-    app.run_polling()
+
+    print("🚀 Setting webhook...")
+    app.run_webhook(
+        listen="0.0.0.0",
+        port=int(os.getenv("PORT", 8000)),
+        webhook_url=f"{DOMAIN}/webhook/{TOKEN}",
+    )
 
 if __name__ == "__main__":
     main()
