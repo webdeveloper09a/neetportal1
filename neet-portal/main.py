@@ -1,14 +1,24 @@
 from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from fastapi.responses import FileResponse
-import os
+from pathlib import Path
+import json
 
 app = FastAPI()
 
-# Serve index.html
+# Serve frontend
 @app.get("/")
-def read_index():
+def serve_index():
     return FileResponse("Website/index.html")
 
-# Serve static PDF files
-app.mount("/pdfs", StaticFiles(directory="Website/pdfs"), name="pdfs")
+# Serve static files
+app.mount("/Website", StaticFiles(directory="Website"), name="Website")
+
+# Serve PDFs
+pdfs_path = Path(__file__).parent / "Website" / "pdfs"
+app.mount("/pdfs", StaticFiles(directory=pdfs_path), name="pdfs")
+
+# Serve test data
+@app.get("/data/tests.json")
+def get_tests():
+    return FileResponse("Website/data/tests.json")
