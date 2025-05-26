@@ -1,86 +1,126 @@
 import os
 import json
-from telegram import Update, ForceReply
-from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, ContextTypes
-from telegram.ext import CallbackContext
+from telegram import Update, ReplyKeyboardMarkup
+from telegram.ext import (
+    Application,
+    CommandHandler,
+    MessageHandler,
+    ContextTypes,
+    filters,
+    ConversationHandler,
+)
+import logging
+from datetime import datetime
 
-BOT_TOKEN = os.environ["BOT_TOKEN"]
-ADMIN_ID = int(os.environ["ADMIN_ID"])
+# Logging for debugging
+logging.basicConfig(level=logging.INFO)
 
-UPLOAD_CATEGORY, UPLOAD_SUBCATEGORY, UPLOAD_FILE = range(3)
-CATEGORY_MAP = {
-    "rm": ["FTS", "AIATS"],
-    "tym": ["PT", "AIATS", "TE", "NRT"],
-    "oym": ["PT", "AIATS", "TE", "NRT"]
-}
+# Replace with your actual admin Telegram user ID
+ADMIN_USER_ID =7796598050  # 👈 update this!
+
+# Telegram Bot Token (use Railway → Variables tab or set here directly)
+BOT_TOKEN = os.getenv("BOT_TOKEN")
+
+# States for ConversationHandler
+BATCH, CATEGORY, FILE = range(3)
+
+BASE_DIR = os.path.join(os.path.dirname(__file__), "Website")
+TESTS_JSON = os.path.join(BASE_DIR, "data", "tests.json")
+PDF_DIR = os.path.join(BASE_DIR, "pdfs")
+
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if update.effective_user.id != ADMIN_ID:
-        await update.message.reply_text("❌ You are not authorized to use this bot.")
+    if update.effective_user.id != ADMIN_USER_ID:
+        await update.message.reply_text("You are not authorized to use this bot.")
         return ConversationHandler.END
-    await update.message.reply_text("📂 Enter category (rm/tym/oym):")
-    return UPLOAD_CATEGORY
 
-async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    cat = update.message.text.strip().lower()
-    if cat not in CATEGORY_MAP:
-        await update.message.reply_text("❗ Invalid category. Use rm, tym, or oym.")
-        return ConversationHandler.END
-    context.user_data["category"] = cat
-    await update.message.reply_text(f"📁 Enter subcategory {CATEGORY_MAP[cat]}:")
-    return UPLOAD_SUBCATEGORY
+    reply_keyboard = [["rm", "tym", "oym"]]
+    await update.message.reply_text(
+        "Welcome! Please select the batch:",
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
+    )
+    return BATCH
 
-async def get_subcategory(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    subcat = update.message.text.strip().upper()
-    cat = context.user_data["category"]
-    if subcat not in CATEGORY_MAP[cat]:
-        await update.message.reply_text(f"❗ Invalid subcategory for {cat}.")
-        return ConversationHandler.END
-    context.user_data["subcategory"] = subcat
-    await update.message.reply_text("📄 Now send the PDF file:")
-    return UPLOAD_FILE
 
-async def handle_pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    document = update.message.document
-    if not document or not document.file_name.endswith(".pdf"):
-        await update.message.reply_text("❗ Please send a valid PDF.")
-        return UPLOAD_FILE
+async def batch_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data["batch"] = update.message.text.lower()
+    batch = context.user_data["batch"]
 
-    cat = context.user_data["category"]
-    subcat = context.user_data["subcategory"]
-    filename = document.file_name
-    save_path = f"Website/pdfs/{cat}/{subcat}/{filename}"
+    if batch == "rm":
+        categories = ["fts", "aiats"]
+    else:
+        categories = ["pt", "aiats", "te", "nrt"]
 
-    file = await context.bot.get_file(document.file_id)
-    await file.download_to_drive(save_path)
+    reply_keyboard = [categories]
+    await update.message.reply_text(
+        f"Selected batch: {batch.upper()}\nNow choose the test category:",
+        reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True),
+    )
+    return CATEGORY
+
+
+async def category_selection(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    context.user_data["category"] = update.message.text.lower()
+    await update.message.reply_text("Now send the PDF file:")
+    return FILE
+
+
+async def save_pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    if update.message.document.mime_type != "application/pdf":
+        await update.message.reply_text("Please send a valid PDF file.")
+        return FILE
+
+    batch = context.user_data["batch"]
+    category = context.user_data["category"]
+    pdf_file = update.message.document
+
+    date_str = datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
+    filename = f"{batch.upper()}_{category.upper()}_{date_str}.pdf"
+
+    folder_path = os.path.join(PDF_DIR, batch, category)
+    os.makedirs(folder_path, exist_ok=True)
+
+    file_path = os.path.join(folder_path, filename)
+    await pdf_file.get_file().download_to_drive(file_path)
 
     # Update tests.json
-    with open("Website/data/tests.json", "r") as f:
+    with open(TESTS_JSON, "r") as f:
         data = json.load(f)
-    if cat not in data:
-        data[cat] = {}
-    if subcat not in data[cat]:
-        data[cat][subcat] = []
-    data[cat][subcat].append(filename)
-    with open("Website/data/tests.json", "w") as f:
-        json.dump(data, f, indent=4)
 
-    await update.message.reply_text("✅ Uploaded successfully.")
+    data.setdefault(batch, {}).setdefault(category, []).insert(0, filename)
+
+    with open(TESTS_JSON, "w") as f:
+        json.dump(data, f, indent=2)
+
+    await update.message.reply_text("✅ PDF uploaded and record saved.")
     return ConversationHandler.END
 
-app = Application.builder().token(BOT_TOKEN).build()
 
-conv_handler = ConversationHandler(
-    entry_points=[CommandHandler("upload", start)],
-    states={
-        UPLOAD_CATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_category)],
-        UPLOAD_SUBCATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_subcategory)],
-        UPLOAD_FILE: [MessageHandler(filters.Document.PDF, handle_pdf)],
-    },
-    fallbacks=[],
-)
-app.add_handler(conv_handler)
+async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    await update.message.reply_text("Operation cancelled.")
+    return ConversationHandler.END
 
+
+# Entry point to run the bot
 if __name__ == "__main__":
-    print("🤖 Bot is running...")
-    app.run_polling()
+    import asyncio
+
+    async def main():
+        application = Application.builder().token(BOT_TOKEN).build()
+
+        conv_handler = ConversationHandler(
+            entry_points=[CommandHandler("start", start)],
+            states={
+                BATCH: [MessageHandler(filters.TEXT & ~filters.COMMAND, batch_selection)],
+                CATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, category_selection)],
+                FILE: [MessageHandler(filters.Document.PDF, save_pdf)],
+            },
+            fallbacks=[CommandHandler("cancel", cancel)],
+        )
+
+        application.add_handler(conv_handler)
+
+        # Start the bot
+        await application.run_polling()
+
+    asyncio.run(main())
