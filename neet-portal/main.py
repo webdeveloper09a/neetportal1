@@ -9,4 +9,6 @@ app = FastAPI()
 app.mount("/", StaticFiles(directory="Website", html=True), name="site")
 
 # Serve PDF folders
-app.mount("/pdfs", StaticFiles(directory="pdfs"), name="pdfs")
+from pathlib import Path
+pdfs_path = Path(__file__).parent / "Website" / "pdfs"
+app.mount("/pdfs", StaticFiles(directory=pdfs_path), name="pdfs")
