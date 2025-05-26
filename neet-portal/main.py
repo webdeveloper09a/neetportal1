@@ -11,63 +11,67 @@
     }
     body {
       margin: 0; 
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: linear-gradient(135deg, #e0f2fe 0%, #bae6fd 100%);
-      color: #1e293b;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: #f7f9fc; /* very light gray-blue */
+      color: #222831;       /* almost black, soft */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 25px 20px 50px;
-      scroll-behavior: smooth;
-    }
-
-    /* Quote at top */
-    .quote {
-      max-width: 960px;
-      font-style: italic;
-      font-weight: 600;
-      font-size: 1.25rem;
-      color: #2563eb;
-      margin-bottom: 20px;
-      user-select: none;
-      text-align: center;
-      padding: 0 15px;
-      letter-spacing: 0.04em;
-      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.12);
+      padding: 20px 15px 50px;
+      line-height: 1.5;
+      letter-spacing: 0.02em;
     }
 
     header {
       width: 100%;
       max-width: 960px;
-      background: #1e40af;
-      color: white;
-      padding: 38px 30px;
-      border-radius: 14px;
+      background: linear-gradient(135deg, #283e59, #3a5068); /* darker blue-gray gradient */
+      color: #eaeaea; /* very light */
+      padding: 35px 25px;
+      border-radius: 15px;
       text-align: center;
-      box-shadow: 0 8px 30px rgba(30, 64, 175, 0.4);
+      box-shadow: 0 8px 24px rgba(40, 62, 89, 0.4);
       user-select: none;
-      position: relative;
-      overflow: hidden;
+      font-weight: 700;
+      letter-spacing: 0.03em;
+      transition: background 0.4s ease;
+    }
+    header:hover {
+      background: linear-gradient(135deg, #1f2d43, #2e4050);
     }
     header h1 {
-      margin: 0 0 12px;
-      font-weight: 800;
-      font-size: 2.5rem;
-      letter-spacing: 0.04em;
+      margin: 0 0 10px;
+      font-size: 2.4rem;
       line-height: 1.2;
-      text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
     }
     header p {
       font-size: 1.15rem;
-      opacity: 0.85;
+      opacity: 0.8;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
 
+    /* Quote section */
+    .quote {
+      max-width: 860px;
+      margin: 30px auto 50px;
+      font-style: italic;
+      font-weight: 600;
+      color: #475569; /* slate gray-blue */
+      font-size: 1.2rem;
+      border-left: 6px solid #3a5068;
+      padding-left: 18px;
+      user-select: text;
+      box-shadow: 2px 2px 8px rgba(58, 80, 104, 0.1);
+      background: #e3e9f1; /* very light blue-gray */
+      border-radius: 8px;
+      line-height: 1.45;
+    }
+
     /* Search box */
     .search-container {
-      margin: 30px auto 40px;
+      margin: 20px auto 35px;
       width: 100%;
       max-width: 960px;
       text-align: center;
@@ -77,23 +81,23 @@
       max-width: 520px;
       padding: 14px 20px;
       font-size: 1.1rem;
-      border-radius: 40px;
-      border: 3px solid #1e40af;
+      border-radius: 30px;
+      border: 2.5px solid #3a5068;
       outline-offset: 3px;
-      outline-color: #3b82f6;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: inset 0 0 8px #9bb3cc66;
       font-weight: 600;
-      box-shadow: 0 4px 12px rgba(59,130,246,0.2);
-      transition: border-color 0.35s ease, box-shadow 0.35s ease;
-      color: #1e293b;
+      color: #222831;
+      background-color: #fafbfc;
     }
     .search-container input::placeholder {
-      font-weight: 500;
-      color: #94a3b8;
+      color: #a1b0cc;
+      font-style: italic;
     }
     .search-container input:focus {
-      border-color: #3b82f6;
-      box-shadow: 0 0 12px 2px #3b82f6aa;
-      background: #ffffffdd;
+      border-color: #1f2d43;
+      box-shadow: 0 0 12px #1f2d43aa;
+      background-color: #fff;
     }
 
     /* Batches container */
@@ -101,151 +105,187 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 28px;
+      gap: 22px;
       width: 100%;
       max-width: 960px;
       user-select: none;
-      margin-bottom: 45px;
     }
 
     .batch-card {
-      background: white;
+      background: #f9fafc;
       border-radius: 18px;
-      padding: 28px 36px;
-      min-width: 200px;
-      max-width: 220px;
-      box-shadow: 0 12px 30px rgba(30, 64, 175, 0.15);
+      padding: 28px 35px;
+      min-width: 190px;
+      max-width: 210px;
+      box-shadow: 0 8px 28px rgba(58, 80, 104, 0.15);
       cursor: pointer;
       text-align: center;
       font-weight: 700;
-      font-size: 1.35rem;
-      color: #1e40af;
-      transition: 
-        background 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        color 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-        box-shadow 0.35s ease;
-      border: 3px solid transparent;
+      font-size: 1.3rem;
+      color: #283e59;
+      transition: background 0.35s ease, color 0.35s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      border: 2px solid transparent;
       user-select: none;
-      letter-spacing: 0.03em;
-      box-sizing: border-box;
+      letter-spacing: 0.015em;
+      text-transform: uppercase;
     }
     .batch-card:hover {
-      background: #3b82f6;
-      color: white;
-      transform: translateY(-8px) scale(1.05);
-      box-shadow: 0 18px 40px rgba(59, 130, 246, 0.4);
-      border-color: #2563eb;
+      background: #dde4ef;
+      color: #1f2d43;
+      transform: translateY(-7px);
+      border-color: #1f2d43;
+      box-shadow: 0 12px 38px rgba(31, 45, 67, 0.35);
     }
 
     /* JEE card special */
     .batch-card.jee {
       cursor: default;
-      background: #d1d5db;
-      color: #6b7280;
-      border-color: #9ca3af;
+      background: #e4e7eb;
+      color: #8892a3;
+      border-color: #bcc4d4;
       font-style: italic;
       user-select: none;
+      transition: background 0.3s ease, box-shadow 0.3s ease;
       box-shadow: none;
-      transition: background 0.3s ease;
-      font-weight: 600;
-      letter-spacing: 0.02em;
+      text-transform: none;
     }
     .batch-card.jee:hover {
-      background: #9ca3af;
-      color: #4b5563;
+      background: #d0d5dd;
+      color: #6a7280;
       transform: none;
-      border-color: #6b7280;
+      border-color: #9aa3b5;
       box-shadow: none;
     }
 
     /* Test container */
     .test-container {
-      margin-top: 35px;
+      margin-top: 40px;
       width: 100%;
       max-width: 960px;
       display: flex;
       flex-wrap: wrap;
-      gap: 30px;
+      gap: 28px;
       justify-content: center;
       user-select: none;
+      min-height: 320px;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 6px 28px rgba(58, 80, 104, 0.12);
+      padding: 25px 20px;
+      transition: background 0.3s ease;
+    }
+    .test-container:empty::before {
+      content: "Please select a batch above to view test papers.";
+      color: #999ea7;
+      font-style: italic;
+      font-weight: 600;
+      width: 100%;
+      text-align: center;
+      user-select: none;
+      font-size: 1.1rem;
+      padding: 40px 0;
+      display: block;
     }
 
     .test-section {
       flex: 1 1 320px;
-      background: white;
-      border-radius: 20px;
-      box-shadow: 0 8px 28px rgba(30, 64, 175, 0.12);
-      padding: 24px 28px;
+      background: #f4f7fc;
+      border-radius: 16px;
+      box-shadow: 0 4px 22px rgba(31, 45, 67, 0.08);
+      padding: 28px 30px;
       display: flex;
       flex-direction: column;
-      max-height: 520px;
+      max-height: 540px;
       overflow-y: auto;
-      scroll-padding: 20px;
-      transition: box-shadow 0.3s ease;
-    }
-    .test-section:hover {
-      box-shadow: 0 14px 40px rgba(30, 64, 175, 0.22);
+      transition: background 0.3s ease;
     }
     .test-section h2 {
       font-size: 1.4rem;
-      font-weight: 800;
-      color: #1e40af;
+      font-weight: 700;
+      color: #283e59;
       margin-bottom: 18px;
-      border-bottom: 3px solid #3b82f6;
+      border-bottom: 3px solid #3a5068;
       padding-bottom: 8px;
       user-select: text;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.02em;
     }
 
     /* PDF links */
     .pdf-link {
       text-decoration: none;
-      padding: 11px 15px;
-      margin-bottom: 12px;
-      color: #1e40af;
-      font-weight: 700;
-      border-radius: 12px;
-      transition: background-color 0.35s ease, color 0.35s ease, transform 0.3s ease;
+      padding: 10px 14px;
+      margin-bottom: 14px;
+      color: #1f2d43;
+      font-weight: 600;
+      border-radius: 10px;
+      transition: background-color 0.3s ease, color 0.3s ease;
       user-select: text;
       display: block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      box-shadow: 0 2px 6px rgba(30, 64, 175, 0.12);
-      background: #eff6ff;
+      box-shadow: 0 2px 6px rgba(58, 80, 104, 0.1);
     }
     .pdf-link:hover {
-      background: #2563eb;
-      color: white;
-      transform: translateX(8px);
-      box-shadow: 0 6px 16px rgba(37, 99, 235, 0.5);
+      background: #c4cddb;
+      color: #0b1220;
+      box-shadow: 0 4px 14px rgba(11, 18, 32, 0.2);
     }
 
     /* Message if no papers */
     .no-papers {
-      color: #64748b;
+      color: #7a828d;
       font-style: italic;
       font-weight: 600;
       margin-top: 8px;
       user-select: text;
+      font-size: 1rem;
+      text-align: center;
+      letter-spacing: 0.015em;
     }
 
-    /* "Why Aakashiansneet" section */
+    /* Why section */
     .why-section {
       max-width: 960px;
-      background: #1e40af;
-      color: white;
-      border-radius: 16px;
-      padding: 30px 38px;
-      margin-top: 55px;
-      box-shadow: 0 10px 40px rgba(30, 64, 175, 0.35);
-      user-select: none;
-      font-size: 1.15rem;
-      font-weight: 600;
-      line-height: 1.5;
-      letter-spacing: 0.03em;
+      background: #e3e9f1;
+      border-radius: 18px;
+      padding: 30px 40px;
+      margin: 60px auto 0;
+      box-shadow: 0 10px 30px rgba(58, 80, 104, 0.15);
+      user-select: text;
+    }
+    .why-section h2 {
+      font-size: 1.8rem;
+      color: #283e59;
+      font-weight: 700;
+      margin-bottom: 22px;
+      letter-spacing: 0.02em;
       text-align: center;
+    }
+    .why-section ul {
+      list-style: none;
+      padding-left: 0;
+      font-size: 1.1rem;
+      color: #222831;
+      line-height: 1.55;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    .why-section ul li {
+      margin-bottom: 14px;
+      padding-left: 24px;
+      position: relative;
+      font-weight: 600;
+    }
+    .why-section ul li::before {
+      content: '✔';
+      color: #3a5068;
+      position: absolute;
+      left: 0;
+      top: 2px;
+      font-weight: 900;
+      font-size: 1.1rem;
+      user-select: none;
     }
 
     /* Responsive adjustments */
@@ -253,141 +293,105 @@
       .test-container {
         flex-direction: column;
         max-width: 100%;
+        padding: 20px 15px;
       }
       .test-section {
         max-height: none;
       }
       .batch-card {
-        min-width: 100%;
-        max-width: 100%;
-        padding: 22px 20px;
-        font-size: 1.15rem;
-      }
-      header h1 {
-        font-size: 1.9rem;
-      }
-      header p {
-        font-size: 1rem;
-      }
-      .quote {
+        min-width: 140px;
+        max-width: 160px;
         font-size: 1.1rem;
-        margin-bottom: 14px;
+        padding: 20px 22px;
       }
       .why-section {
-        font-size: 1rem;
         padding: 25px 20px;
-        margin-top: 35px;
       }
     }
   </style>
 </head>
 <body>
 
-  <div class="quote">
-    "Success is not an accident. It is hard work, perseverance, learning, studying, sacrifice, and most of all, love of what you are doing." – Pelé
-  </div>
-
   <header>
     <h1>Welcome to Aakash NEET & JEE Test Papers (2025–2026)</h1>
     <p>Batches: RM (Droppers), OYM (12th), TYM (11th) — JEE Coming Soon</p>
   </header>
 
+  <div class="quote" aria-label="Inspirational quote">
+    “Success in exams is not just about studying hard, but studying smart. Your journey starts here.”
+  </div>
+
   <div class="search-container">
     <input type="search" id="searchInput" placeholder="Search test papers..." oninput="filterSearch()" />
   </div>
 
-  <div class="batches">
-    <div class="batch-card" data-batch="rm" onclick="showTests('rm')">RM (Droppers)</div>
-    <div class="batch-card" data-batch="oym" onclick="showTests('oym')">OYM (12th)</div>
-    <div class="batch-card" data-batch="tym" onclick="showTests('tym')">TYM (11th)</div>
-    <div class="batch-card jee" onclick="alert('JEE Content Coming Soon!')">JEE (Coming Soon)</div>
+  <div class="batches" role="list" aria-label="Select batch">
+    <div class="batch-card" data-batch="rm" onclick="showTests('rm')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('rm')">RM (Droppers)</div>
+    <div class="batch-card" data-batch="oym" onclick="showTests('oym')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('oym')">OYM (12th)</div>
+    <div class="batch-card" data-batch="tym" onclick="showTests('tym')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('tym')">TYM (11th)</div>
+    <div class="batch-card jee" onclick="alert('JEE Content Coming Soon!')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') alert('JEE Content Coming Soon!')">JEE (Coming Soon)</div>
   </div>
 
   <div class="test-container" id="testContainer" aria-live="polite" aria-label="Test papers list"></div>
 
-  <div class="why-section" aria-label="Why choose Aakashiansneet?">
-    Why Aakashiansneet?<br><br>
-    At Aakashiansneet, we provide the most comprehensive, up-to-date, and meticulously organized test papers tailored for every batch and exam. Our platform empowers students to prepare confidently and excel with trusted resources, a smooth user experience, and continuous support — because your success is our mission.
-  </div>
+  <section class="why-section" aria-label="Why choose AakashPaper 2025-26">
+    <h2>Why AakashPaper 25-26?</h2>
+    <ul>
+      <li>Comprehensive & updated test papers tailored for NEET aspirants.</li>
+      <li>Organized batches covering droppers and school years with precise categorization.</li>
+      <li>Easy search and navigation for quick access to your required papers.</li>
+      <li>Trusted by thousands of students for consistent exam preparation.</li>
+      <li>Future-ready updates including upcoming JEE content.</li>
+    </ul>
+  </section>
 
 <script>
   const categories = {
-    rm: ['FTS', 'AIATS'],
-    oym: ['PT', 'AIATS', 'TE', 'NRT'],
-    tym: ['PT', 'AIATS', 'TE', 'NRT'],
+    rm: [
+      { name: "FTS Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 2 - 2025", link: "#" }
+    ],
+    oym: [
+      { name: "PT Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 3 - 2025", link: "#" },
+      { name: "TE Test 1 - 2025", link: "#" },
+      { name: "NRT Test 1 - 2025", link: "#" }
+    ],
+    tym: [
+      { name: "PT Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 2 - 2025", link: "#" },
+      { name: "TE Test 1 - 2025", link: "#" },
+      { name: "NRT Test 2 - 2025", link: "#" }
+    ]
   };
-  const testData = {
-    rm: { FTS: [], AIATS: [] },
-    oym: { PT: [], AIATS: [], TE: [], NRT: [] },
-    tym: { PT: [], AIATS: [], TE: [], NRT: [] },
-  };
-  let currentBatch = null;
+
+  const testContainer = document.getElementById('testContainer');
 
   function showTests(batch) {
-    currentBatch = batch;
-    const container = document.getElementById('testContainer');
-    container.innerHTML = '';
-    const batchCategories = categories[batch];
-
-    batchCategories.forEach(cat => {
-      const section = document.createElement('section');
-      section.className = 'test-section';
-      section.setAttribute('aria-label', `${batch.toUpperCase()} - ${cat} test papers`);
-
-      const heading = document.createElement('h2');
-      heading.textContent = cat;
-      section.appendChild(heading);
-
-      const papers = testData[batch][cat] || [];
-      if (papers.length === 0) {
-        const noPapersMsg = document.createElement('p');
-        noPapersMsg.className = 'no-papers';
-        noPapersMsg.textContent = 'Not yet released';
-        section.appendChild(noPapersMsg);
-      } else {
-        papers.forEach(paperName => {
-          const link = document.createElement('a');
-          link.className = 'pdf-link';
-          link.textContent = paperName;
-          link.href = `/pdfs/${batch}/${cat}/${encodeURIComponent(paperName)}`;
-          if (paperName.toLowerCase().includes('upcoming')) {
-            link.href = '#';
-            link.onclick = (e) => {
-              e.preventDefault();
-              alert('Contact @Rockyy_og on Telegram to purchase (₹250)');
-            };
-          }
-          section.appendChild(link);
-        });
-      }
-      container.appendChild(section);
+    testContainer.innerHTML = '';
+    if (!categories[batch] || categories[batch].length === 0) {
+      testContainer.innerHTML = '<p class="no-papers">No test papers available for this batch currently.</p>';
+      return;
+    }
+    categories[batch].forEach(test => {
+      const a = document.createElement('a');
+      a.href = test.link;
+      a.textContent = test.name;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'pdf-link';
+      testContainer.appendChild(a);
     });
-    filterSearch();
   }
 
   function filterSearch() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    if (!currentBatch) return;
-    const container = document.getElementById('testContainer');
-    const sections = container.querySelectorAll('.test-section');
-
-    sections.forEach(section => {
-      let hasVisibleLink = false;
-      const links = section.querySelectorAll('.pdf-link');
-
-      links.forEach(link => {
-        const matches = link.textContent.toLowerCase().includes(query);
-        link.style.display = matches ? 'block' : 'none';
-        if (matches) hasVisibleLink = true;
-      });
-
-      section.style.display = hasVisibleLink ? 'flex' : 'none';
-
-      if (!hasVisibleLink) {
-        const noPapers = section.querySelector('.no-papers');
-        if (noPapers) {
-          section.style.display = 'flex';
-        }
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const links = testContainer.querySelectorAll('.pdf-link');
+    links.forEach(link => {
+      if (link.textContent.toLowerCase().includes(input)) {
+        link.style.display = 'block';
+      } else {
+        link.style.display = 'none';
       }
     });
   }
