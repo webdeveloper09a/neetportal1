@@ -4,346 +4,273 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Aakash NEET Test Papers 2025-2026</title>
+
+  <!-- Google Fonts: Poppins -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet" />
+
   <style>
-    /* Reset & basics */
+    /* Reset */
     * {
       box-sizing: border-box;
     }
     body {
-      margin: 0; 
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f7f9fc; /* very light gray-blue */
-      color: #222831;       /* almost black, soft */
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background: #fff8f0; /* creamy beige */
+      color: #4a403a; /* dark brown */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      padding: 20px 15px 50px;
+      padding: 20px 15px 60px;
+      letter-spacing: 0.03em;
       line-height: 1.5;
-      letter-spacing: 0.02em;
     }
 
     header {
       width: 100%;
       max-width: 960px;
-      background: linear-gradient(135deg, #283e59, #3a5068); /* darker blue-gray gradient */
-      color: #eaeaea; /* very light */
-      padding: 35px 25px;
-      border-radius: 15px;
+      padding: 30px 25px;
+      background: linear-gradient(135deg, #ff8c42, #ff652f);
+      border-radius: 25px;
+      color: #fff8f0;
       text-align: center;
-      box-shadow: 0 8px 24px rgba(40, 62, 89, 0.4);
+      box-shadow: 0 12px 40px rgba(255, 101, 47, 0.5);
       user-select: none;
-      font-weight: 700;
-      letter-spacing: 0.03em;
-      transition: background 0.4s ease;
-    }
-    header:hover {
-      background: linear-gradient(135deg, #1f2d43, #2e4050);
+      position: relative;
     }
     header h1 {
       margin: 0 0 10px;
-      font-size: 2.4rem;
-      line-height: 1.2;
+      font-weight: 700;
+      font-size: 2.8rem;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 8px rgba(255, 255, 255, 0.3);
     }
     header p {
-      font-size: 1.15rem;
-      opacity: 0.8;
       font-weight: 600;
-      letter-spacing: 0.02em;
+      font-size: 1.25rem;
+      letter-spacing: 0.04em;
+      opacity: 0.9;
+      text-shadow: 0 0 5px rgba(0,0,0,0.1);
     }
 
-    /* Quote section */
-    .quote {
-      max-width: 860px;
-      margin: 30px auto 50px;
-      font-style: italic;
-      font-weight: 600;
-      color: #475569; /* slate gray-blue */
-      font-size: 1.2rem;
-      border-left: 6px solid #3a5068;
-      padding-left: 18px;
-      user-select: text;
-      box-shadow: 2px 2px 8px rgba(58, 80, 104, 0.1);
-      background: #e3e9f1; /* very light blue-gray */
-      border-radius: 8px;
-      line-height: 1.45;
-    }
-
-    /* Search box */
+    /* Search inside header */
     .search-container {
-      margin: 20px auto 35px;
-      width: 100%;
-      max-width: 960px;
+      margin-top: 24px;
       text-align: center;
     }
     .search-container input {
-      width: 92%;
-      max-width: 520px;
-      padding: 14px 20px;
-      font-size: 1.1rem;
-      border-radius: 30px;
-      border: 2.5px solid #3a5068;
-      outline-offset: 3px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: inset 0 0 8px #9bb3cc66;
+      width: 70%;
+      max-width: 480px;
+      padding: 14px 22px;
+      font-size: 1.15rem;
+      border-radius: 35px;
+      border: none;
+      outline: none;
+      box-shadow: 0 5px 20px rgba(255, 101, 47, 0.5);
       font-weight: 600;
-      color: #222831;
-      background-color: #fafbfc;
+      color: #4a403a;
+      transition: box-shadow 0.3s ease;
+      background: #fff4e9;
+      letter-spacing: 0.02em;
     }
     .search-container input::placeholder {
-      color: #a1b0cc;
+      color: #c77f58;
       font-style: italic;
     }
     .search-container input:focus {
-      border-color: #1f2d43;
-      box-shadow: 0 0 12px #1f2d43aa;
-      background-color: #fff;
+      box-shadow: 0 6px 24px rgba(255, 130, 70, 0.9);
+      background: #fff;
     }
 
-    /* Batches container */
+    /* Batch cards grid */
     .batches {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 22px;
+      margin-top: 50px;
       width: 100%;
       max-width: 960px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 28px;
       user-select: none;
     }
-
     .batch-card {
-      background: #f9fafc;
-      border-radius: 18px;
-      padding: 28px 35px;
-      min-width: 190px;
-      max-width: 210px;
-      box-shadow: 0 8px 28px rgba(58, 80, 104, 0.15);
-      cursor: pointer;
-      text-align: center;
+      background: #fff4e9;
+      border-radius: 24px;
+      padding: 30px 20px;
+      box-shadow: 0 8px 28px rgba(255, 101, 47, 0.18);
       font-weight: 700;
       font-size: 1.3rem;
-      color: #283e59;
-      transition: background 0.35s ease, color 0.35s ease, transform 0.3s ease, box-shadow 0.3s ease;
-      border: 2px solid transparent;
-      user-select: none;
-      letter-spacing: 0.015em;
+      text-align: center;
+      color: #c75b12;
+      cursor: pointer;
+      letter-spacing: 0.04em;
       text-transform: uppercase;
+      transition: background 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+      user-select: none;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
     }
     .batch-card:hover {
-      background: #dde4ef;
-      color: #1f2d43;
-      transform: translateY(-7px);
-      border-color: #1f2d43;
-      box-shadow: 0 12px 38px rgba(31, 45, 67, 0.35);
+      background: #ffb07c;
+      color: #fff8f0;
+      box-shadow: 0 15px 50px rgba(255, 101, 47, 0.6);
+      transform: translateY(-8px);
     }
-
-    /* JEE card special */
     .batch-card.jee {
+      background: #e0d0b8;
+      color: #7a5a2d;
       cursor: default;
-      background: #e4e7eb;
-      color: #8892a3;
-      border-color: #bcc4d4;
       font-style: italic;
-      user-select: none;
-      transition: background 0.3s ease, box-shadow 0.3s ease;
       box-shadow: none;
       text-transform: none;
     }
     .batch-card.jee:hover {
-      background: #d0d5dd;
-      color: #6a7280;
+      background: #d3c5a0;
+      color: #6c4e22;
       transform: none;
-      border-color: #9aa3b5;
       box-shadow: none;
     }
 
-    /* Test container */
+    /* Test container grid */
     .test-container {
-      margin-top: 40px;
+      margin-top: 50px;
       width: 100%;
       max-width: 960px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 28px;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
       user-select: none;
-      min-height: 320px;
-      background: #fff;
-      border-radius: 20px;
-      box-shadow: 0 6px 28px rgba(58, 80, 104, 0.12);
-      padding: 25px 20px;
-      transition: background 0.3s ease;
+      min-height: 350px;
     }
     .test-container:empty::before {
-      content: "Please select a batch above to view test papers.";
-      color: #999ea7;
+      content: "Select a batch above to see available test papers.";
       font-style: italic;
       font-weight: 600;
-      width: 100%;
+      color: #c77f58;
+      user-select: text;
       text-align: center;
-      user-select: none;
+      grid-column: 1 / -1;
+      padding: 40px 20px;
       font-size: 1.1rem;
-      padding: 40px 0;
-      display: block;
     }
 
+    /* Test sections */
     .test-section {
-      flex: 1 1 320px;
-      background: #f4f7fc;
-      border-radius: 16px;
-      box-shadow: 0 4px 22px rgba(31, 45, 67, 0.08);
-      padding: 28px 30px;
+      background: #fff4e9;
+      border-radius: 24px;
+      padding: 28px 25px;
+      box-shadow: 0 10px 35px rgba(199, 95, 12, 0.15);
       display: flex;
       flex-direction: column;
-      max-height: 540px;
+      max-height: 520px;
       overflow-y: auto;
       transition: background 0.3s ease;
+      user-select: text;
     }
     .test-section h2 {
-      font-size: 1.4rem;
       font-weight: 700;
-      color: #283e59;
-      margin-bottom: 18px;
-      border-bottom: 3px solid #3a5068;
+      font-size: 1.5rem;
+      color: #c75b12;
+      margin-bottom: 20px;
+      letter-spacing: 0.04em;
+      border-bottom: 3px solid #ff8c42;
       padding-bottom: 8px;
-      user-select: text;
-      letter-spacing: 0.02em;
     }
 
     /* PDF links */
     .pdf-link {
-      text-decoration: none;
-      padding: 10px 14px;
-      margin-bottom: 14px;
-      color: #1f2d43;
+      color: #7a4a0c;
       font-weight: 600;
-      border-radius: 10px;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      user-select: text;
+      text-decoration: none;
+      padding: 12px 18px;
+      border-radius: 16px;
+      background: #ffbc82;
+      margin-bottom: 14px;
+      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease;
+      box-shadow: 0 3px 8px rgba(199, 95, 12, 0.3);
       display: block;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      box-shadow: 0 2px 6px rgba(58, 80, 104, 0.1);
+      user-select: text;
     }
     .pdf-link:hover {
-      background: #c4cddb;
-      color: #0b1220;
-      box-shadow: 0 4px 14px rgba(11, 18, 32, 0.2);
+      background: #ff6a11;
+      color: #fff8f0;
+      box-shadow: 0 6px 18px rgba(255, 106, 17, 0.6);
     }
 
-    /* Message if no papers */
+    /* No papers message */
     .no-papers {
-      color: #7a828d;
       font-style: italic;
       font-weight: 600;
-      margin-top: 8px;
-      user-select: text;
-      font-size: 1rem;
+      color: #b67a4d;
+      margin-top: 10px;
       text-align: center;
-      letter-spacing: 0.015em;
-    }
-
-    /* Why section */
-    .why-section {
-      max-width: 960px;
-      background: #e3e9f1;
-      border-radius: 18px;
-      padding: 30px 40px;
-      margin: 60px auto 0;
-      box-shadow: 0 10px 30px rgba(58, 80, 104, 0.15);
       user-select: text;
     }
-    .why-section h2 {
-      font-size: 1.8rem;
-      color: #283e59;
-      font-weight: 700;
-      margin-bottom: 22px;
-      letter-spacing: 0.02em;
-      text-align: center;
-    }
-    .why-section ul {
-      list-style: none;
-      padding-left: 0;
-      font-size: 1.1rem;
-      color: #222831;
-      line-height: 1.55;
-      max-width: 700px;
-      margin: 0 auto;
-    }
-    .why-section ul li {
-      margin-bottom: 14px;
-      padding-left: 24px;
-      position: relative;
-      font-weight: 600;
-    }
-    .why-section ul li::before {
-      content: '✔';
-      color: #3a5068;
-      position: absolute;
-      left: 0;
-      top: 2px;
-      font-weight: 900;
-      font-size: 1.1rem;
-      user-select: none;
+
+    /* Footer */
+    footer {
+      margin-top: 60px;
+      font-size: 0.9rem;
+      color: #9f7b53;
+      user-select: text;
     }
 
-    /* Responsive adjustments */
+    /* Responsive */
     @media (max-width: 768px) {
       .test-container {
-        flex-direction: column;
+        grid-template-columns: 1fr;
         max-width: 100%;
-        padding: 20px 15px;
       }
-      .test-section {
-        max-height: none;
+      .batches {
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 18px;
       }
       .batch-card {
-        min-width: 140px;
-        max-width: 160px;
         font-size: 1.1rem;
-        padding: 20px 22px;
+        min-height: 80px;
       }
-      .why-section {
-        padding: 25px 20px;
+      header h1 {
+        font-size: 2rem;
+      }
+      header p {
+        font-size: 1rem;
+      }
+      .search-container input {
+        width: 90%;
       }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Welcome to Aakash NEET & JEE Test Papers (2025–2026)</h1>
-    <p>Batches: RM (Droppers), OYM (12th), TYM (11th) — JEE Coming Soon</p>
+  <header role="banner">
+    <h1>Aakash NEET Test Papers 2025-2026</h1>
+    <p>RM (Droppers) | OYM (12th) | TYM (11th) — JEE Coming Soon</p>
+    <div class="search-container">
+      <input type="search" id="searchInput" placeholder="Search test papers..." oninput="filterSearch()" aria-label="Search test papers" />
+    </div>
   </header>
 
-  <div class="quote" aria-label="Inspirational quote">
-    “Success in exams is not just about studying hard, but studying smart. Your journey starts here.”
-  </div>
+  <main>
+    <section class="batches" role="list" aria-label="Select batch">
+      <div class="batch-card" data-batch="rm" role="listitem" tabindex="0" onclick="showTests('rm')" onkeypress="if(event.key==='Enter') showTests('rm')">RM (Droppers)</div>
+      <div class="batch-card" data-batch="oym" role="listitem" tabindex="0" onclick="showTests('oym')" onkeypress="if(event.key==='Enter') showTests('oym')">OYM (12th)</div>
+      <div class="batch-card" data-batch="tym" role="listitem" tabindex="0" onclick="showTests('tym')" onkeypress="if(event.key==='Enter') showTests('tym')">TYM (11th)</div>
+      <div class="batch-card jee" role="listitem" tabindex="0" onclick="alert('JEE Content Coming Soon!')" onkeypress="if(event.key==='Enter') alert('JEE Content Coming Soon!')">JEE (Coming Soon)</div>
+    </section>
 
-  <div class="search-container">
-    <input type="search" id="searchInput" placeholder="Search test papers..." oninput="filterSearch()" />
-  </div>
+    <section class="test-container" id="testContainer" aria-live="polite" aria-label="Test papers list"></section>
+  </main>
 
-  <div class="batches" role="list" aria-label="Select batch">
-    <div class="batch-card" data-batch="rm" onclick="showTests('rm')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('rm')">RM (Droppers)</div>
-    <div class="batch-card" data-batch="oym" onclick="showTests('oym')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('oym')">OYM (12th)</div>
-    <div class="batch-card" data-batch="tym" onclick="showTests('tym')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') showTests('tym')">TYM (11th)</div>
-    <div class="batch-card jee" onclick="alert('JEE Content Coming Soon!')" role="listitem" tabindex="0" onkeypress="if(event.key==='Enter') alert('JEE Content Coming Soon!')">JEE (Coming Soon)</div>
-  </div>
-
-  <div class="test-container" id="testContainer" aria-live="polite" aria-label="Test papers list"></div>
-
-  <section class="why-section" aria-label="Why choose AakashPaper 2025-26">
-    <h2>Why AakashPaper 25-26?</h2>
-    <ul>
-      <li>Comprehensive & updated test papers tailored for NEET aspirants.</li>
-      <li>Organized batches covering droppers and school years with precise categorization.</li>
-      <li>Easy search and navigation for quick access to your required papers.</li>
-      <li>Trusted by thousands of students for consistent exam preparation.</li>
-      <li>Future-ready updates including upcoming JEE content.</li>
-    </ul>
-  </section>
+  <footer>
+    &copy; 2025 Aakash NEET Paper Hub
+  </footer>
 
 <script>
   const categories = {
