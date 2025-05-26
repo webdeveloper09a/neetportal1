@@ -16,7 +16,7 @@ from datetime import datetime
 logging.basicConfig(level=logging.INFO)
 
 # Replace with your actual admin Telegram user ID
-ADMIN_USER_ID =7796598050  # 👈 update this!
+ADMIN_USER_ID = 123456789  # 👈 update this!
 
 # Telegram Bot Token (use Railway → Variables tab or set here directly)
 BOT_TOKEN = os.getenv("BOT_TOKEN")
