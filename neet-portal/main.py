@@ -1,18 +1,14 @@
-from fastapi import FastAPI, Request
-from fastapi.responses import HTMLResponse
+from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
-import json
+from fastapi.responses import FileResponse
 import os
 
 app = FastAPI()
 
-app.mount("/static", StaticFiles(directory="Website/static"), name="static")
-app.mount("/pdfs", StaticFiles(directory="Website/pdfs"), name="pdfs")
-templates = Jinja2Templates(directory="Website/templates")
+# Serve index.html
+@app.get("/")
+def read_index():
+    return FileResponse("Website/index.html")
 
-@app.get("/", response_class=HTMLResponse)
-async def homepage(request: Request):
-    with open("Website/data/tests.json", "r") as f:
-        tests_data = json.load(f)
-    return templates.TemplateResponse("index.html", {"request": request, "tests": tests_data})
+# Serve static PDF files
+app.mount("/pdfs", StaticFiles(directory="Website/pdfs"), name="pdfs")
