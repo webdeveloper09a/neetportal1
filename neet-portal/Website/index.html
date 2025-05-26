@@ -12,8 +12,8 @@
     body {
       margin: 0; 
       font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      background: #f0f4fa;
-      color: #1a1a1a;
+      background: #f7f9fc; /* very light gray-blue */
+      color: #222831;       /* almost black, soft */
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -26,19 +26,19 @@
     header {
       width: 100%;
       max-width: 960px;
-      background: linear-gradient(135deg, #0052cc, #2a73ff);
-      color: white;
+      background: linear-gradient(135deg, #283e59, #3a5068); /* darker blue-gray gradient */
+      color: #eaeaea; /* very light */
       padding: 35px 25px;
       border-radius: 15px;
       text-align: center;
-      box-shadow: 0 8px 24px rgba(0, 80, 204, 0.3);
+      box-shadow: 0 8px 24px rgba(40, 62, 89, 0.4);
       user-select: none;
       font-weight: 700;
       letter-spacing: 0.03em;
       transition: background 0.4s ease;
     }
     header:hover {
-      background: linear-gradient(135deg, #003d99, #1a52cc);
+      background: linear-gradient(135deg, #1f2d43, #2e4050);
     }
     header h1 {
       margin: 0 0 10px;
@@ -47,7 +47,7 @@
     }
     header p {
       font-size: 1.15rem;
-      opacity: 0.88;
+      opacity: 0.8;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
@@ -58,13 +58,13 @@
       margin: 30px auto 50px;
       font-style: italic;
       font-weight: 600;
-      color: #333e66;
+      color: #475569; /* slate gray-blue */
       font-size: 1.2rem;
-      border-left: 6px solid #2a73ff;
+      border-left: 6px solid #3a5068;
       padding-left: 18px;
       user-select: text;
-      box-shadow: 2px 2px 8px rgba(42, 115, 255, 0.1);
-      background: #e6f0ff;
+      box-shadow: 2px 2px 8px rgba(58, 80, 104, 0.1);
+      background: #e3e9f1; /* very light blue-gray */
       border-radius: 8px;
       line-height: 1.45;
     }
@@ -82,19 +82,22 @@
       padding: 14px 20px;
       font-size: 1.1rem;
       border-radius: 30px;
-      border: 2.5px solid #2a73ff;
+      border: 2.5px solid #3a5068;
       outline-offset: 3px;
       transition: border-color 0.3s ease, box-shadow 0.3s ease;
-      box-shadow: inset 0 0 8px #a8c7ff66;
+      box-shadow: inset 0 0 8px #9bb3cc66;
       font-weight: 600;
+      color: #222831;
+      background-color: #fafbfc;
     }
     .search-container input::placeholder {
-      color: #a1b6e2;
+      color: #a1b0cc;
       font-style: italic;
     }
     .search-container input:focus {
-      border-color: #0047b3;
-      box-shadow: 0 0 12px #0047b3aa;
+      border-color: #1f2d43;
+      box-shadow: 0 0 12px #1f2d43aa;
+      background-color: #fff;
     }
 
     /* Batches container */
@@ -109,17 +112,17 @@
     }
 
     .batch-card {
-      background: white;
+      background: #f9fafc;
       border-radius: 18px;
       padding: 28px 35px;
       min-width: 190px;
       max-width: 210px;
-      box-shadow: 0 8px 28px rgba(42, 115, 255, 0.2);
+      box-shadow: 0 8px 28px rgba(58, 80, 104, 0.15);
       cursor: pointer;
       text-align: center;
       font-weight: 700;
       font-size: 1.3rem;
-      color: #003366;
+      color: #283e59;
       transition: background 0.35s ease, color 0.35s ease, transform 0.3s ease, box-shadow 0.3s ease;
       border: 2px solid transparent;
       user-select: none;
@@ -127,19 +130,19 @@
       text-transform: uppercase;
     }
     .batch-card:hover {
-      background: #d9e5ff;
-      color: #00264d;
+      background: #dde4ef;
+      color: #1f2d43;
       transform: translateY(-7px);
-      border-color: #00264d;
-      box-shadow: 0 12px 38px rgba(0, 38, 77, 0.35);
+      border-color: #1f2d43;
+      box-shadow: 0 12px 38px rgba(31, 45, 67, 0.35);
     }
 
     /* JEE card special */
     .batch-card.jee {
       cursor: default;
-      background: #f2f2f2;
-      color: #999;
-      border-color: #ccc;
+      background: #e4e7eb;
+      color: #8892a3;
+      border-color: #bcc4d4;
       font-style: italic;
       user-select: none;
       transition: background 0.3s ease, box-shadow 0.3s ease;
@@ -147,10 +150,10 @@
       text-transform: none;
     }
     .batch-card.jee:hover {
-      background: #e6e6e6;
-      color: #666;
+      background: #d0d5dd;
+      color: #6a7280;
       transform: none;
-      border-color: #999;
+      border-color: #9aa3b5;
       box-shadow: none;
     }
 
@@ -167,13 +170,13 @@
       min-height: 320px;
       background: #fff;
       border-radius: 20px;
-      box-shadow: 0 6px 28px rgba(42, 115, 255, 0.12);
+      box-shadow: 0 6px 28px rgba(58, 80, 104, 0.12);
       padding: 25px 20px;
       transition: background 0.3s ease;
     }
     .test-container:empty::before {
       content: "Please select a batch above to view test papers.";
-      color: #888;
+      color: #999ea7;
       font-style: italic;
       font-weight: 600;
       width: 100%;
@@ -186,9 +189,9 @@
 
     .test-section {
       flex: 1 1 320px;
-      background: #f9fbff;
+      background: #f4f7fc;
       border-radius: 16px;
-      box-shadow: 0 4px 22px rgba(0, 71, 179, 0.1);
+      box-shadow: 0 4px 22px rgba(31, 45, 67, 0.08);
       padding: 28px 30px;
       display: flex;
       flex-direction: column;
@@ -199,9 +202,9 @@
     .test-section h2 {
       font-size: 1.4rem;
       font-weight: 700;
-      color: #003366;
+      color: #283e59;
       margin-bottom: 18px;
-      border-bottom: 3px solid #2a73ff;
+      border-bottom: 3px solid #3a5068;
       padding-bottom: 8px;
       user-select: text;
       letter-spacing: 0.02em;
@@ -212,7 +215,7 @@
       text-decoration: none;
       padding: 10px 14px;
       margin-bottom: 14px;
-      color: #0047b3;
+      color: #1f2d43;
       font-weight: 600;
       border-radius: 10px;
       transition: background-color 0.3s ease, color 0.3s ease;
@@ -221,17 +224,17 @@
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
-      box-shadow: 0 2px 6px rgba(42, 115, 255, 0.1);
+      box-shadow: 0 2px 6px rgba(58, 80, 104, 0.1);
     }
     .pdf-link:hover {
-      background: #aac9ff;
-      color: #00264d;
-      box-shadow: 0 4px 14px rgba(0, 38, 77, 0.2);
+      background: #c4cddb;
+      color: #0b1220;
+      box-shadow: 0 4px 14px rgba(11, 18, 32, 0.2);
     }
 
     /* Message if no papers */
     .no-papers {
-      color: #777;
+      color: #7a828d;
       font-style: italic;
       font-weight: 600;
       margin-top: 8px;
@@ -244,16 +247,16 @@
     /* Why section */
     .why-section {
       max-width: 960px;
-      background: #e6f0ff;
+      background: #e3e9f1;
       border-radius: 18px;
       padding: 30px 40px;
       margin: 60px auto 0;
-      box-shadow: 0 10px 30px rgba(42, 115, 255, 0.15);
+      box-shadow: 0 10px 30px rgba(58, 80, 104, 0.15);
       user-select: text;
     }
     .why-section h2 {
       font-size: 1.8rem;
-      color: #003366;
+      color: #283e59;
       font-weight: 700;
       margin-bottom: 22px;
       letter-spacing: 0.02em;
@@ -263,7 +266,7 @@
       list-style: none;
       padding-left: 0;
       font-size: 1.1rem;
-      color: #1a1a1a;
+      color: #222831;
       line-height: 1.55;
       max-width: 700px;
       margin: 0 auto;
@@ -276,7 +279,7 @@
     }
     .why-section ul li::before {
       content: '✔';
-      color: #2a73ff;
+      color: #3a5068;
       position: absolute;
       left: 0;
       top: 2px;
@@ -344,82 +347,51 @@
 
 <script>
   const categories = {
-    rm: ['FTS', 'AIATS'],
-    oym: ['PT', 'AIATS', 'TE', 'NRT'],
-    tym: ['PT', 'AIATS', 'TE', 'NRT'],
+    rm: [
+      { name: "FTS Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 2 - 2025", link: "#" }
+    ],
+    oym: [
+      { name: "PT Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 3 - 2025", link: "#" },
+      { name: "TE Test 1 - 2025", link: "#" },
+      { name: "NRT Test 1 - 2025", link: "#" }
+    ],
+    tym: [
+      { name: "PT Test 1 - 2025", link: "#" },
+      { name: "AIATS Test 2 - 2025", link: "#" },
+      { name: "TE Test 1 - 2025", link: "#" },
+      { name: "NRT Test 2 - 2025", link: "#" }
+    ]
   };
-  const testData = {
-    rm: { FTS: [], AIATS: [] },
-    oym: { PT: [], AIATS: [], TE: [], NRT: [] },
-    tym: { PT: [], AIATS: [], TE: [], NRT: [] },
-  };
-  let currentBatch = null;
+
+  const testContainer = document.getElementById('testContainer');
 
   function showTests(batch) {
-    currentBatch = batch;
-    const container = document.getElementById('testContainer');
-    container.innerHTML = '';
-    const batchCategories = categories[batch];
-
-    batchCategories.forEach(cat => {
-      const section = document.createElement('section');
-      section.className = 'test-section';
-      section.setAttribute('aria-label', `${batch.toUpperCase()} - ${cat} test papers`);
-
-      const heading = document.createElement('h2');
-      heading.textContent = cat;
-      section.appendChild(heading);
-
-      const papers = testData[batch][cat] || [];
-      if (papers.length === 0) {
-        const noPapersMsg = document.createElement('p');
-        noPapersMsg.className = 'no-papers';
-        noPapersMsg.textContent = 'Not yet released';
-        section.appendChild(noPapersMsg);
-      } else {
-        papers.forEach(paperName => {
-          const link = document.createElement('a');
-          link.className = 'pdf-link';
-          link.textContent = paperName;
-          link.href = `/pdfs/${batch}/${cat}/${encodeURIComponent(paperName)}`;
-          if (paperName.toLowerCase().includes('upcoming')) {
-            link.href = '#';
-            link.onclick = (e) => {
-              e.preventDefault();
-              alert('Contact @Rockyy_og on Telegram to purchase (₹250)');
-            };
-          }
-          section.appendChild(link);
-        });
-      }
-      container.appendChild(section);
+    testContainer.innerHTML = '';
+    if (!categories[batch] || categories[batch].length === 0) {
+      testContainer.innerHTML = '<p class="no-papers">No test papers available for this batch currently.</p>';
+      return;
+    }
+    categories[batch].forEach(test => {
+      const a = document.createElement('a');
+      a.href = test.link;
+      a.textContent = test.name;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'pdf-link';
+      testContainer.appendChild(a);
     });
-    filterSearch();
   }
 
   function filterSearch() {
-    const query = document.getElementById('searchInput').value.toLowerCase();
-    if (!currentBatch) return;
-    const container = document.getElementById('testContainer');
-    const sections = container.querySelectorAll('.test-section');
-
-    sections.forEach(section => {
-      let hasVisibleLink = false;
-      const links = section.querySelectorAll('.pdf-link');
-
-      links.forEach(link => {
-        const matches = link.textContent.toLowerCase().includes(query);
-        link.style.display = matches ? 'block' : 'none';
-        if (matches) hasVisibleLink = true;
-      });
-
-      section.style.display = hasVisibleLink ? 'flex' : 'none';
-
-      if (!hasVisibleLink) {
-        const noPapers = section.querySelector('.no-papers');
-        if (noPapers) {
-          section.style.display = 'flex';
-        }
+    const input = document.getElementById('searchInput').value.toLowerCase();
+    const links = testContainer.querySelectorAll('.pdf-link');
+    links.forEach(link => {
+      if (link.textContent.toLowerCase().includes(input)) {
+        link.style.display = 'block';
+      } else {
+        link.style.display = 'none';
       }
     });
   }
