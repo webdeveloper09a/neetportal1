@@ -1,3 +1,4 @@
 fastapi
 uvicorn
-python-telegram-bot[webhooks]
+jinja2
+python-telegram-bot[ext]~=20.6
