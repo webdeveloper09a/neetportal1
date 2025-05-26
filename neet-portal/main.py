@@ -5,8 +5,8 @@ import os
 
 app = FastAPI()
 
-# Serve frontend
-app.mount("/", StaticFiles(directory="Website", html=True), name="website")
+# Serve static frontend
+app.mount("/", StaticFiles(directory="Website", html=True), name="site")
 
-# Serve PDF files
+# Serve PDF folders
 app.mount("/pdfs", StaticFiles(directory="pdfs"), name="pdfs")
