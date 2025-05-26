@@ -1,24 +1,18 @@
-# main.py
-import asyncio
-from fastapi import FastAPI
+from fastapi import FastAPI, Request
+from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
-from Website.bot import start_bot
-from starlette.responses import FileResponse
+from fastapi.templating import Jinja2Templates
+import json
 import os
 
 app = FastAPI()
 
-# Serve website static files
+app.mount("/static", StaticFiles(directory="Website/static"), name="static")
 app.mount("/pdfs", StaticFiles(directory="Website/pdfs"), name="pdfs")
-app.mount("/data", StaticFiles(directory="Website/data"), name="data")
+templates = Jinja2Templates(directory="Website/templates")
 
-@app.get("/")
-async def root():
-    return FileResponse("Website/index.html")
-
-# Run both API and bot
-if __name__ == "__main__":
-    import uvicorn
-    loop = asyncio.get_event_loop()
-    loop.create_task(start_bot())
-    uvicorn.run(app, host="0.0.0.0", port=int(os.environ.get("PORT", 8080)))
+@app.get("/", response_class=HTMLResponse)
+async def homepage(request: Request):
+    with open("Website/data/tests.json", "r") as f:
+        tests_data = json.load(f)
+    return templates.TemplateResponse("index.html", {"request": request, "tests": tests_data})
