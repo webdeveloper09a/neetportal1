@@ -1,135 +1,86 @@
 import os
 import json
-from telegram import Update, ReplyKeyboardMarkup
-from telegram.ext import (
-    ApplicationBuilder, CommandHandler, MessageHandler,
-    ContextTypes, ConversationHandler, filters
-)
+from telegram import Update, ForceReply
+from telegram.ext import Application, CommandHandler, MessageHandler, filters, ConversationHandler, ContextTypes
+from telegram.ext import CallbackContext
 
-# === CONFIGURATION ===
-BOT_TOKEN = "7708512334:AAHltdbTA632hHy2E1gQ5F4H4o-MDVGboH4"
-ADMIN_ID = 7796598050  # Replace with your Telegram user ID
-BASE_DIR = "Website/pdfs"
-JSON_PATH = "Website/data/tests.json"
-WEBHOOK_URL = "https://aakashpapers-production.up.railway.app"  # your Railway URL
+BOT_TOKEN = os.environ["BOT_TOKEN"]
+ADMIN_ID = int(os.environ["ADMIN_ID"])
 
-BATCHES = {
-    "RM": ["FTS", "AIATS"],
-    "OYM": ["PT", "AIATS", "TE", "NRT"],
-    "TYM": ["PT", "AIATS", "TE", "NRT"]
+UPLOAD_CATEGORY, UPLOAD_SUBCATEGORY, UPLOAD_FILE = range(3)
+CATEGORY_MAP = {
+    "rm": ["FTS", "AIATS"],
+    "tym": ["PT", "AIATS", "TE", "NRT"],
+    "oym": ["PT", "AIATS", "TE", "NRT"]
 }
 
-# === STATES ===
-SELECT_BATCH, SELECT_CATEGORY, GET_PDF, GET_FILENAME = range(4)
-
-# === JSON SAVE ===
-def save_to_json(batch, category, filename):
-    os.makedirs(os.path.dirname(JSON_PATH), exist_ok=True)
-    if not os.path.exists(JSON_PATH):
-        with open(JSON_PATH, 'w') as f:
-            json.dump({}, f)
-
-    with open(JSON_PATH, 'r') as f:
-        data = json.load(f)
-
-    if batch.lower() not in data:
-        data[batch.lower()] = {}
-    if category not in data[batch.lower()]:
-        data[batch.lower()][category] = []
-
-    if filename not in data[batch.lower()][category]:
-        data[batch.lower()][category].append(filename)
-
-    with open(JSON_PATH, 'w') as f:
-        json.dump(data, f, indent=2)
-
-# === HANDLERS ===
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     if update.effective_user.id != ADMIN_ID:
-        await update.message.reply_text("⛔ You're not authorized to use this bot.")
+        await update.message.reply_text("❌ You are not authorized to use this bot.")
         return ConversationHandler.END
+    await update.message.reply_text("📂 Enter category (rm/tym/oym):")
+    return UPLOAD_CATEGORY
 
-    reply_keyboard = [[b] for b in BATCHES.keys()]
-    await update.message.reply_text(
-        "📚 Select Batch:", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-    )
-    return SELECT_BATCH
-
-async def select_batch(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    batch = update.message.text
-    if batch not in BATCHES:
-        await update.message.reply_text("❌ Invalid batch. Try again.")
+async def get_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    cat = update.message.text.strip().lower()
+    if cat not in CATEGORY_MAP:
+        await update.message.reply_text("❗ Invalid category. Use rm, tym, or oym.")
         return ConversationHandler.END
+    context.user_data["category"] = cat
+    await update.message.reply_text(f"📁 Enter subcategory {CATEGORY_MAP[cat]}:")
+    return UPLOAD_SUBCATEGORY
 
-    context.user_data["batch"] = batch
-    categories = BATCHES[batch]
-    reply_keyboard = [[c] for c in categories]
-    await update.message.reply_text(
-        "📁 Select Category:", reply_markup=ReplyKeyboardMarkup(reply_keyboard, one_time_keyboard=True)
-    )
-    return SELECT_CATEGORY
+async def get_subcategory(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    subcat = update.message.text.strip().upper()
+    cat = context.user_data["category"]
+    if subcat not in CATEGORY_MAP[cat]:
+        await update.message.reply_text(f"❗ Invalid subcategory for {cat}.")
+        return ConversationHandler.END
+    context.user_data["subcategory"] = subcat
+    await update.message.reply_text("📄 Now send the PDF file:")
+    return UPLOAD_FILE
 
-async def select_category(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    category = update.message.text
-    context.user_data["category"] = category
-    await update.message.reply_text("📄 Now send the PDF file.")
-    return GET_PDF
+async def handle_pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
+    document = update.message.document
+    if not document or not document.file_name.endswith(".pdf"):
+        await update.message.reply_text("❗ Please send a valid PDF.")
+        return UPLOAD_FILE
 
-async def get_pdf(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    if not update.message.document or not update.message.document.file_name.endswith(".pdf"):
-        await update.message.reply_text("⚠️ Please send a valid PDF file.")
-        return GET_PDF
+    cat = context.user_data["category"]
+    subcat = context.user_data["subcategory"]
+    filename = document.file_name
+    save_path = f"Website/pdfs/{cat}/{subcat}/{filename}"
 
-    context.user_data["file"] = update.message.document
-    await update.message.reply_text("📌 What should be the filename? (e.g. AIATS-05.pdf)")
-    return GET_FILENAME
+    file = await context.bot.get_file(document.file_id)
+    await file.download_to_drive(save_path)
 
-async def get_filename(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    filename = update.message.text.strip()
-    file = context.user_data["file"]
-    batch = context.user_data["batch"]
-    category = context.user_data["category"]
+    # Update tests.json
+    with open("Website/data/tests.json", "r") as f:
+        data = json.load(f)
+    if cat not in data:
+        data[cat] = {}
+    if subcat not in data[cat]:
+        data[cat][subcat] = []
+    data[cat][subcat].append(filename)
+    with open("Website/data/tests.json", "w") as f:
+        json.dump(data, f, indent=4)
 
-    folder_path = os.path.join(BASE_DIR, batch.lower(), category)
-    os.makedirs(folder_path, exist_ok=True)
-    file_path = os.path.join(folder_path, filename)
-
-    file_data = await file.get_file()
-    await file_data.download_to_drive(file_path)
-
-    save_to_json(batch, category, filename)
-
-    await update.message.reply_text(f"✅ Uploaded and saved as `{filename}`", parse_mode="Markdown")
+    await update.message.reply_text("✅ Uploaded successfully.")
     return ConversationHandler.END
 
-async def cancel(update: Update, context: ContextTypes.DEFAULT_TYPE):
-    await update.message.reply_text("❌ Cancelled.")
-    return ConversationHandler.END
+app = Application.builder().token(BOT_TOKEN).build()
 
-# === MAIN ===
-def main():
-    app = ApplicationBuilder().token(BOT_TOKEN).build()
-
-    conv_handler = ConversationHandler(
-        entry_points=[CommandHandler("start", start)],
-        states={
-            SELECT_BATCH: [MessageHandler(filters.TEXT & ~filters.COMMAND, select_batch)],
-            SELECT_CATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, select_category)],
-            GET_PDF: [MessageHandler(filters.Document.PDF, get_pdf)],
-            GET_FILENAME: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_filename)],
-        },
-        fallbacks=[CommandHandler("cancel", cancel)],
-    )
-
-    app.add_handler(conv_handler)
-
-    # Webhook setup
-    print("🚀 Setting webhook...")
-    app.run_webhook(
-        listen="0.0.0.0",
-        port=int(os.environ.get("PORT", 8000)),
-        webhook_url=f"{WEBHOOK_URL}/webhook/{BOT_TOKEN}"
-    )
+conv_handler = ConversationHandler(
+    entry_points=[CommandHandler("upload", start)],
+    states={
+        UPLOAD_CATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_category)],
+        UPLOAD_SUBCATEGORY: [MessageHandler(filters.TEXT & ~filters.COMMAND, get_subcategory)],
+        UPLOAD_FILE: [MessageHandler(filters.Document.PDF, handle_pdf)],
+    },
+    fallbacks=[],
+)
+app.add_handler(conv_handler)
 
 if __name__ == "__main__":
-    main()
+    print("🤖 Bot is running...")
+    app.run_polling()
